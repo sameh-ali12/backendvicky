@@ -1,0 +1,22 @@
+{
+  "name": "sameh",
+  "version": "1.0.0",
+  "description": "Admin",
+  "main": "app.js",
+  "author": "Joker Team <asa90829@gmail.com>",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.5",
+    "express": "^4.14.0",
+    "fs": "*",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.6",
+    "nodemailer": "^6.4.1"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "devDependencies": {},
+  "license": "ISC"
+}
