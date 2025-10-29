@@ -157,9 +157,9 @@
 // module.exports = app;
 
 
-
 "use strict";
 
+const serverless = require("serverless-http");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -169,40 +169,10 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 
 const app = express();
-const port = process.env.PORT || 3000;
 
-/* ✅ MODELS */
-const User = require("./api/models/userModel");
-const Product = require("./api/models/productModel");
-const Store = require("./api/models/storeModel");
-const Sales = require("./api/models/salesModel");
-const Treasury = require("./api/models/treasuryModel");
-const Suppliers = require("./api/models/suppliersModel");
-const Itineraries = require("./api/models/itinerariesModel");
-const Clients = require("./api/models/clientsModel");
-const ExpensesCat = require("./api/models/expensescatModel");
-const Expenses = require("./api/models/expensesModel");
-const Check = require("./api/models/checkModel");
-const ParnterSell = require("./api/models/partnersellModel");
-const TranserMoney= require("./api/models/partnertransfermoneyModel");
-const CarUpload= require("./api/models/caruploadModel");
-const CarDownload= require("./api/models/cardownloadModel");
-const PaymentTosuppliers= require("./api/models/paymenttosuppliersModel");
-const BuyFromSuppliers= require("./api/models/buyfromsuppliersModel");
-const SellToClients= require("./api/models/selltoclientsModel");
-const StoreAction = require("./api/models/storeactionModel");
-const TreasuryAction = require("./api/models/treasuryactionModel");
-const PaymentFromClients = require("./api/models/paymentfromclientsModel");
-const liquidation = require("./api/models/liquidationModel");
-const transferproduct = require("./api/models/transferproductModel");
-const discount = require("./api/models/discounttoclientsModel");
-const clientandsupplieraction = require("./api/models/client-supplier-actionModel");
-const transferproductsales = require("./api/models/transferproductsalesModel");
-const productactions = require("./api/models/productactionModel");
-
-/* ✅ CORS — يدعم preflight */
+/* ✅ CORS */
 app.use(cors({
-  origin: "*", // او حط https://vickyvicky.web.app
+  origin: "*",
   methods: "GET,POST,PUT,DELETE,OPTIONS",
   allowedHeaders: "Content-Type, Authorization",
   credentials: true
@@ -219,16 +189,42 @@ mongoose.connect("mongodb+srv://sameh:QWqw1234@vicky.a4o16.mongodb.net/vicky?ret
   useUnifiedTopology: true
 })
 .then(() => console.log("✅ DB Connected"))
-.catch((err) => console.log("❌ DB Connection Failed", err));
+.catch(err => console.log("❌ Database Error:", err));
 
-mongoose.set("useCreateIndex", true);
+/* ✅ Models */
+require("./../../api/models/userModel");
+require("./../../api/models/productModel");
+require("./../../api/models/storeModel");
+require("./../../api/models/salesModel");
+require("./../../api/models/treasuryModel");
+require("./../../api/models/suppliersModel");
+require("./../../api/models/itinerariesModel");
+require("./../../api/models/clientsModel");
+require("./../../api/models/expensescatModel");
+require("./../../api/models/expensesModel");
+require("./../../api/models/checkModel");
+require("./../../api/models/partnersellModel");
+require("./../../api/models/partnertransfermoneyModel");
+require("./../../api/models/caruploadModel");
+require("./../../api/models/cardownloadModel");
+require("./../../api/models/paymenttosuppliersModel");
+require("./../../api/models/buyfromsuppliersModel");
+require("./../../api/models/selltoclientsModel");
+require("./../../api/models/storeactionModel");
+require("./../../api/models/treasuryactionModel");
+require("./../../api/models/paymentfromclientsModel");
+require("./../../api/models/liquidationModel");
+require("./../../api/models/transferproductModel");
+require("./../../api/models/discounttoclientsModel");
+require("./../../api/models/client-supplier-actionModel");
+require("./../../api/models/transferproductsalesModel");
+require("./../../api/models/productactionModel");
 
-/* ✅ JWT middleware */
-app.use(function (req, res, next) {
-  if (req.headers && req.headers.authorization) {
-    jwt.verify(req.headers.authorization, "RESTFULAPIs", function (err, decode) {
-      if (err) req.user = undefined;
-      req.user = decode;
+/* ✅ JWT Middleware */
+app.use((req, res, next) => {
+  if (req.headers.authorization) {
+    jwt.verify(req.headers.authorization, "RESTFULAPIs", (err, decode) => {
+      req.user = err ? undefined : decode;
       next();
     });
   } else {
@@ -238,14 +234,13 @@ app.use(function (req, res, next) {
 });
 
 /* ✅ Routes */
-const routes = require("./api/routes/allRoutes.js");
+const routes = require("./../../api/routes/allRoutes");
 routes(app);
 app.use("/api", routes);
 
-/* ✅ Server */
-app.listen(port, () => {
-  console.log("✅ API Started on port: " + port);
-});
+/* ✅ IMPORTANT: No app.listen() */
 
-module.exports = app;
+// ✅ Export to Netlify Function
+module.exports.handler = serverless(app);
+
 
