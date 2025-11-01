@@ -40,8 +40,8 @@ var express = require("express"),
   jwt = require("jsonwebtoken");
   app.use(cors())
 
-app.use(cors({ origin: "*" }));
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(cors({ origin: "*" }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 // app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '50mb', extended: true}))
@@ -49,6 +49,7 @@ app.use(bodyParser.json({limit: '50mb', extended: true}))
 
 
 
+///// الربيع
 
 // mongoose.connect("mongodb+srv://samehali:QWqw1234@cluster1.4744h.mongodb.net/testapp?retryWrites=true&w=majority", {
 //     useNewUrlParser: true,
@@ -60,6 +61,7 @@ app.use(bodyParser.json({limit: '50mb', extended: true}))
 // mongoose.set("useCreateIndex", true);
 
 
+///// ارت كيم 
 
 // mongoose.connect("mongodb+srv://admin:QWqw1234@i-monitor.4744h.mongodb.net/i-monitor?retryWrites=true&w=majority", {
 //     useNewUrlParser: true,
@@ -71,39 +73,45 @@ app.use(bodyParser.json({limit: '50mb', extended: true}))
 // mongoose.set("useCreateIndex", true);
 
 
-
-// mongoose.connect("mongodb+srv://samehali:QWqw1234@cluster1.4744h.mongodb.net/test?retryWrites=true&w=majority", {
-//     useNewUrlParser: true,
-//   })
-//   .then(() => console.log("DB Connected!"))
-//   .catch((err) => {
-//     console.log("message");
-//   });
-// mongoose.set("useCreateIndex", true);
-
+///// test
 
 mongoose.connect("mongodb+srv://sameh:QWqw1234@vicky.a4o16.mongodb.net/vicky?retryWrites=true&w=majority", {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useFindAndModify: false 
+
   })
   .then(() => console.log("DB Connected!"))
   .catch((err) => {
-    console.log("message");
+    console.log(err);
   });
 mongoose.set("useCreateIndex", true);
 
+
+///// test Ahmed
+// mongoose.connect("mongodb+srv://ahmed:ahmed1261990@integration-sales.6peyq.mongodb.net/integration-salesdb?retryWrites=true&w=majority", {
+//     useNewUrlParser: true,
+//     useFindAndModify: false 
+//   })
+//   .then(() => console.log("DB Connected!"))
+//   .catch((err) => {
+//     console.log(err);
+//   });
+// mongoose.set("useCreateIndex", true);
 
 
 
 
 app.use(function (req, res, next) {
 
-  
-  // Website you wish to allow to connect
-  // res.setHeader('Access-Control-Allow-Origin', 'https://sales-art-bc8a3.web.app');
-   res.setHeader('Access-Control-Allow-Origin', 'https://vickyvicky.web.app/');
-   
-   // res.setHeader('Access-Control-Allow-Origin', 'https://sales-art-bc8a3.web.app');
+  // Website you wish to allow to connect8
+  res.setHeader('Access-Control-Allow-Origin', '*');
+     ///res.setHeader('Access-Control-Allow-Origin', 'https://vickydairy-be680.web.app');
+ 
+     //// res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+
+    
+    
+
 
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
